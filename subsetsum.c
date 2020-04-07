@@ -14,13 +14,15 @@ int SubsetSum(int array[], int length, int subset, int sum){
     if (length == 0){
         return false;
     }
-    int res1 = 0;
+    bool found1 = false;
     if (sum >= array[0]){
-        res1 = SubsetSum(array + 1, length - 1, subset - 1, sum - array[0]);
+        found1 = SubsetSum(array + 1, length - 1, subset - 1, sum - array[0]);
     }
-    int res2 = SubsetSum(array + 1, length - 1, subset, sum);
-    return res1 + res2 > 0;
+    int found2 = SubsetSum(array + 1, length - 1, subset, sum);
+    return (found1 || found2);
 }
+
+
 
 int main (void){
     int elements[5] = {1, 2, 3 ,4 ,5};
