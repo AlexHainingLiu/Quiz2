@@ -33,7 +33,9 @@ int main (void){
     }
     return 0;
 
-    int universal[10000];
+    int universal[100];
+    int accounted [100];
+    int randInd;
     for(int i = 0;i<100;i++){
         universal[i] = i+1;
         assert(!SubsetSum(universal,100,0,2));
@@ -44,19 +46,27 @@ int main (void){
         assert(!SubsetSum(universal,100,2,2));
         assert(!SubsetSum(universal,0,2,5));
         assert(!SubsetSum(universal,100,1,2));
-        //Random Tests
-        for(int i = 0;i<10000;i++)
-            universal[i] = rand();
+    //Random Tests
+        for(int i = 0;i<100;i++){
+            universal[i] = rand()%(1<<10);
             int sum = 0;
             int curSum = 0;
-        //2 element tests
-        for(int i = 1;i<10000;i++)
-        {
-            for(int j = 0;j<10000;j++) {
-                curSum = universal[rand() % 10000] + sum;
-                assert(SubsetSum(universal, 10000, curSum, i));
+    //2 element tests
+            for(int i = 1;i<100;i++){
+                for(int j = 0;j<100;j++) {
+                    randInd = rand() % 100;
+                    for(int k = 1;k<i;k++) {
+                        if(accounted[k] == randInd){
+                            randInd = rand() % 100;
+                            k = 1;
+                        }
+                    }
+                    curSum = universal[randInd] + sum;
+                    assert(SubsetSum(universal, 100, curSum, i));
+                }
+                accounted[i] = randInd;
+                sum =curSum;
             }
-            sum+=curSum;
         }
     }
 }
